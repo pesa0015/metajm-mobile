@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<style>
+	header {
+		background: #0E1D2C;
+		height: 300px;
+		text-align: center;
+	}
+	#content {
+		background: #234A6F;
+		height: 100%;
+	}
+	button {
+		width: 100%;
+		margin: auto;
+		border: none;
+		position: relative;
+    	padding: 10px 20px 10px 34px;
+	}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>metajm</h1>
+		<p>Frisörbokning snabbt och enkelt</p>
+	</header>
+	<div id="content">
+		<button id="location">Sök min position</button>
+	</div>
+	<script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+    <script>
+    	var a = document.getElementById('location');
+		a.addEventListener('click', function() {
+			a.innerHTML = 'Söker..';
+			var onSuccess = function(position) {
+				localStorage.b = JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude});
+				window.location.replace('index.html');
+			};
+
+			function onError(error) {
+				if (error.code === 2)
+					alert('GPS måste vara aktiverat.');
+				else
+			    	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+			}
+			var options = { enableHighAccuracy: true };
+			navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+		});
+    </script>
+</body>
+</html>
